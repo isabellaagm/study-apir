@@ -1,7 +1,7 @@
 package com.github.isabellaagm.study_apir.model;
 
 public class Product {
-    private long id;
+    private Long id;
     private String nome;
     
     public long getId() {
