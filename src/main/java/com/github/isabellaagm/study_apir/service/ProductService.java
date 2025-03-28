@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.github.isabellaagm.study_apir.dto.ProductRequestCreate;
+import com.github.isabellaagm.study_apir.dto.ProductRequestUpdate;
 import com.github.isabellaagm.study_apir.model.Product;
 
 @Service
@@ -23,7 +24,7 @@ public class ProductService {
         product.setValor(dto.getValor());
         products.add(product);
 
-        return null;
+        return product;
     }
     public Optional<Product> getProductById(Long id) {
         return products.stream()
@@ -35,13 +36,12 @@ public class ProductService {
         return products;
     }
 
-    public Optional<Product> updateProduct(Long id, Product product) { 
+    public Optional<Product> updateProduct(Long id, ProductRequestUpdate dto) { 
         return products.stream()
         .filter(e -> e.getId().equals(id))
         .findFirst()
         .map(p -> {
-            p.setNome(product.getNome());
-            p.setValor(product.getValor());
+            p.setValor(dto.getValor());
             return p;
         });
     }

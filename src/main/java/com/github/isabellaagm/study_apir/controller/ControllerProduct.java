@@ -1,6 +1,8 @@
 package com.github.isabellaagm.study_apir.controller;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,14 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.isabellaagm.study_apir.dto.ProductRequestCreate;
+import com.github.isabellaagm.study_apir.dto.ProductRequestUpdate;
+import com.github.isabellaagm.study_apir.dto.ProductResponse;
 import com.github.isabellaagm.study_apir.model.Product;
 import com.github.isabellaagm.study_apir.service.ProductService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("produtos")
@@ -26,11 +31,8 @@ public class ControllerProduct {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody ProductRequestCreate dto) {
-
-        Product productCreated = productService.createProduct(dto);
-
-        return ResponseEntity.status(201).body(productCreated);
+    public ResponseEntity<ProductResponse> create(@RequestBody ProductRequestCreate dto) {
+        return ResponseEntity.status(201).body(new ProductResponse().toDto(productService.createProduct(dto)));
     
     }
 
@@ -47,24 +49,31 @@ public class ControllerProduct {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody ProductRequestUpdate dto) {
 
-        return productService.updateProduct(id, product)
+        return productService.updateProduct(id, dto)
+        .map(p ->  new ProductResponse().toDto(p))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
         
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
         return productService.getProductById(id)
+        .map(p ->  new ProductResponse().toDto(p))
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());   
 
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll() {
-       return ResponseEntity.ok(productService.getAll());        
+    public ResponseEntity<List<ProductResponse>> findAll() {
+
+        List<ProductResponse> response = productService.getAll().stream()
+        .map(p ->  new ProductResponse().toDto(p))
+        .collect(Collectors.toList());
+
+       return ResponseEntity.ok(response);        
     }
 }
