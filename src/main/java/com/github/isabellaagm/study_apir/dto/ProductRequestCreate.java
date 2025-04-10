@@ -2,9 +2,18 @@ package com.github.isabellaagm.study_apir.dto;
 
 import java.math.BigDecimal;
 
+import com.github.isabellaagm.study_apir.model.Product;
+
 public class ProductRequestCreate {
     private String nome;
-    private BigDecimal valor;
+
+    public Product toModel(){
+         BigDecimal VALOR_PADRAO = new BigDecimal(500);
+         Product p = new Product();
+         p.setNome(this.getNome());
+         p.setValor(VALOR_PADRAO);
+         return p;
+     }
     
     public String getNome() {
         return nome;
@@ -12,12 +21,4 @@ public class ProductRequestCreate {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public BigDecimal getValor() {
-        return valor;
-    }
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    
 }
