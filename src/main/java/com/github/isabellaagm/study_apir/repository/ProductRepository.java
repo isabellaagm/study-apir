@@ -1,4 +1,4 @@
-package com.github.isabellaagm.repository;
+package com.github.isabellaagm.study_apir.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

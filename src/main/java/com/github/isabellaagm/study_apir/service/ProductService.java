@@ -6,10 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.isabellaagm.repository.ProductRepository;
-import com.github.isabellaagm.study_apir.dto.ProductRequestCreate;
-import com.github.isabellaagm.study_apir.dto.ProductRequestUpdate;
+import com.github.isabellaagm.study_apir.dto.product.ProductRequestCreate;
+import com.github.isabellaagm.study_apir.dto.product.ProductRequestUpdate;
 import com.github.isabellaagm.study_apir.model.Product;
+import com.github.isabellaagm.study_apir.repository.ProductRepository;
 
 @Service
 public class ProductService {
