@@ -14,34 +14,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.isabellaagm.study_apir.dto.product.ProductRequestCreate;
-import com.github.isabellaagm.study_apir.dto.product.ProductRequestUpdate;
-import com.github.isabellaagm.study_apir.dto.product.ProductResponse;
-import com.github.isabellaagm.study_apir.service.ProductService;
-
-
+import com.github.isabellaagm.study_apir.dto.order.OrderRequestCreate;
+import com.github.isabellaagm.study_apir.dto.order.OrderRequestUpdate;
+import com.github.isabellaagm.study_apir.dto.order.OrderResponse;
+import com.github.isabellaagm.study_apir.service.OrderService;
 
 @RestController
-@RequestMapping("produtos")
-public class ControllerProduct {
-
+@RequestMapping("pedidos")
+public class ControllerOrder {
     @Autowired
-    private ProductService productService;
+    private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> create(
-                                @RequestBody ProductRequestCreate dto) {                                    
+    public ResponseEntity<OrderResponse> create(
+                                @RequestBody OrderRequestCreate dto) {                                    
         
         return ResponseEntity.status(201).body(
-            new ProductResponse().toDto(
-                productService.createProduct(dto)
+            new OrderResponse().toDto(
+                orderService.createOrder(dto)
             )
         );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        boolean result = productService.deleteProduct(id);
+        boolean result = orderService.deleteOrder(id);
 
         if (result) {
             return ResponseEntity.noContent().build();
@@ -51,28 +48,28 @@ public class ControllerProduct {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> 
-            update(@PathVariable Long id, @RequestBody ProductRequestUpdate dto) {
+    public ResponseEntity<OrderResponse> 
+            update(@PathVariable Long id, @RequestBody OrderRequestUpdate dto) {
         
-        return productService.updateProduct(id, dto)
-            .map(p-> new ProductResponse().toDto(p))
+        return orderService.updateOrder(id, dto)
+            .map(p-> new OrderResponse().toDto(p))
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
-        return productService.getProductById(id)
-            .map(p-> new ProductResponse().toDto(p))
+    public ResponseEntity<OrderResponse> findById(@PathVariable Long id) {
+        return orderService.getOrderById(id)
+            .map(p-> new OrderResponse().toDto(p))
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());     
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll() {
-        List<ProductResponse> response = 
-            productService.getAll().stream()
-            .map(p-> new ProductResponse().toDto(p))
+    public ResponseEntity<List<OrderResponse>> findAll() {
+        List<OrderResponse> response = 
+            orderService.getAll().stream()
+            .map(p-> new OrderResponse().toDto(p))
             .collect(Collectors.toList()); 
         return ResponseEntity.ok(response);
     }
