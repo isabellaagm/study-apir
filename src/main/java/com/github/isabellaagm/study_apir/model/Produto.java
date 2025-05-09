@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Product {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +16,12 @@ public class Product {
     private String nome;
     private BigDecimal valor;
     
+    public BigDecimal getValor() {
+        return valor;
+    }
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
     public Long getId() {
         return id;
     }
@@ -27,14 +33,6 @@ public class Product {
     }
     public void setNome(String nome) {
         this.nome = nome;
-    }
-    public BigDecimal getValor() {
-        return valor;
-    }
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
+    }    
 
-    
-    
 }
